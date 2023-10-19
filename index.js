@@ -38,6 +38,21 @@ async function run() {
 
     const carsInfo = client.db("carsDB").collection("carsInfo")
 
+    app.get('/cars', async(req, res) => {
+        const cursor = carsInfo.find();
+        const result = await cursor.toArray();
+        res.send(result);
+    })
+
+    app.get('/cars/:brandName', async(req, res) => {
+        const name = req.params.brandName;
+        console.log("from server", name)
+        const query = {brandName : name}
+        const cursor = await carsInfo.find(query).toArray();
+        res.send(cursor)
+
+    })
+
     app.post('/cars', async (req, res) => {
         const cars = req.body;
         const result = await carsInfo.insertOne(cars);
