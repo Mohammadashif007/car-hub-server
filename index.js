@@ -1,5 +1,5 @@
 const express = require('express');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 5000;
@@ -46,12 +46,29 @@ async function run() {
 
     app.get('/cars/:brandName', async(req, res) => {
         const name = req.params.brandName;
-        console.log("from server", name)
+        // console.log("from server", name)
         const query = {brandName : name}
         const cursor = await carsInfo.find(query).toArray();
         res.send(cursor)
-
     })
+
+    app.get('/car/:id', async(req, res) => {
+        const id = req.params.id;
+        console.log("from server", id)
+        const query = {_id : new ObjectId(id)}
+        const cursor = await carsInfo.find(query).toArray();
+        res.send(cursor)
+    })
+
+    // app.get('/cars/:id', async (req, res) => {
+    //     const id = req.params.id;
+    //     const query = {_id : new ObjectId(id)};
+    //     console.log('This is from',query);
+    //     const cursor = carsInfo.find(query);
+    //     const result = await cursor.toArray();
+    //     res.send(result);
+    // })
+
 
     app.post('/cars', async (req, res) => {
         const cars = req.body;
