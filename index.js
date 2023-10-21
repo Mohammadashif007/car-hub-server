@@ -44,6 +44,41 @@ async function run() {
         res.send(result);
     })
 
+    // update car info
+    app.get('/carInfo/:id', async(req, res) => {
+        const id = req.params.id;
+        const query = {_id: new ObjectId(id)};
+        const cursor = await carsInfo.findOne(query);
+        res.send(cursor);
+    })
+
+    app.put('/cars/:id', async(req, res) => {
+        const id = req.params.id;
+        const filter = {_id: new ObjectId(id)};
+        const options = {upsert: true};
+        const updatedCarInfo = req.body;
+        const carUpdate = {
+            $set: {
+                brandName: updatedCarInfo.brandName,
+                brandLogo: updatedCarInfo.brandLogo,
+                carName: updatedCarInfo.carName,
+                carImage: updatedCarInfo.carImage,
+                rating: updatedCarInfo.rating,
+                review: updatedCarInfo.review,
+                transmission: updatedCarInfo.transmission,
+                mileage: updatedCarInfo.mileage,
+                model: updatedCarInfo.model,
+                enginType: updatedCarInfo.enginType,
+                price: updatedCarInfo.price,
+                details: updatedCarInfo.details,
+                bodyTypes: updatedCarInfo.bodyTypes,
+                color: updatedCarInfo.color
+            }
+        }
+        const result = await carsInfo.updateOne(filter, carUpdate, options);
+        res.send(result)
+    })
+
     app.get('/cars/:brandName', async(req, res) => {
         const name = req.params.brandName;
         // console.log("from server", name)
