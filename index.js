@@ -16,7 +16,14 @@ app.get('/', (req, res) => {
 
 // mongodb connection
 
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.efnyjsd.mongodb.net/?retryWrites=true&w=majority`;
+// const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.efnyjsd.mongodb.net/?retryWrites=true&w=majority`;
+
+
+// oTmU10XXCbuBrT7K
+// ashifxp007
+
+const uri = 'mongodb+srv://ashifxp007:oTmU10XXCbuBrT7K@cluster0.ln3yz1s.mongodb.net/?retryWrites=true&w=majority'
+
 
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -80,7 +87,6 @@ async function run() {
 
     app.get('/cars/:brandName', async(req, res) => {
         const name = req.params.brandName;
-        // console.log("from server", name)
         const query = {brandName : name}
         const cursor = await carsInfo.find(query).toArray();
         res.send(cursor)
@@ -88,7 +94,7 @@ async function run() {
 
     app.get('/car/:id', async(req, res) => {
         const id = req.params.id;
-        console.log("from server", id)
+        // console.log("from server", id)
         const query = {_id : new ObjectId(id)}
         const cursor = await carsInfo.find(query).toArray();
         res.send(cursor)
